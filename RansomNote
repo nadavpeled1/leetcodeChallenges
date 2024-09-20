@@ -1,0 +1,44 @@
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        // we will store a hashMap with all magazine letter as keies, with valua init by false.
+        // for each letter in ransom, if in magazine && val=false, val=true and next
+        // else, false
+
+        HashMap<Character, Boolean> dict = new HashMap<>();
+        for(int i=0;i<magazine.length();i++)
+            dict.put(magazine.charAt(i), false);
+            
+        for(int i=0;i<ransomNote.length();i++){
+            char curr = ransomNote.charAt(i);
+            if(!dict.containKey(curr)) return false; // key is not in map
+            // the dict contains.
+            if(dict.get(curr)) return false; // key already used
+                      import java.util.HashMap;
+            
+            public class RansomNote {
+                public boolean canConstruct(String ransomNote, String magazine) {
+                    HashMap<Character, Integer> dict = new HashMap<>();
+            
+                    // Populate the dictionary with characters from the magazine
+                    for (char c : magazine.toCharArray()) {
+                        dict.put(c, dict.getOrDefault(c, 0) + 1);
+                    }
+            
+                    // Check if the ransom note can be constructed
+                    for (char curr : ransomNote.toCharArray()) {
+                        if (!dict.containsKey(curr) || dict.get(curr) == 0) {
+                            return false; // key is not in map or no more characters left
+                        }
+                        dict.put(curr, dict.get(curr) - 1); // use one character
+                    }
+            
+                    return true;
+                }
+            
+            }  //key exist and unused-> mark as used.
+            dict.put(curr, true);
+        }
+        return true;
+
+    }
+}
