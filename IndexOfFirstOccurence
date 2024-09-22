@@ -1,0 +1,21 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        /**
+        iter over haystack:
+        if found match, advance matches until true or reset
+         */
+        int need_curr = 0;
+        char[] hay = haystack.toCharArray();
+        char[] need = needle.toCharArray();
+
+        for(int i=0;i<haystack.length();i++){
+            if(hay[i] == need[need_curr]){
+                need_curr++;
+                if(need_curr == needle.length()) return true;
+            }else{
+                need_curr=0;
+            }
+        }
+        return false;
+    }
+}
