@@ -1,0 +1,18 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        /**
+        1) move pattern to char array, open a dict/hashmap for the key-values
+        2) iterate over s, until null or space
+        3) space case: trim the readed word, if in dict, check key-value match
+           null: return true if all were matched
+         */
+        String[] words = str.split(" ");
+        if (words.length != pattern.length())
+            return false;
+        Map index = new HashMap();
+        for (Integer i=0; i<words.length; ++i)
+            if (index.put(pattern.charAt(i), i) != index.put(words[i], i))
+                return false;
+        return true;
+    }
+}

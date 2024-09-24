@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int min = Integer.MAX_VALUE;
+    Integer prev = null;
+    public int getMinimumDifference(TreeNode root) {
+        /**
+        the closest elements to each elements are: parents and children
+        we will have to go over all the nodes, so atleast O(n)
+        so, we can just iterte over the tree DFS logic.
+        starting from left most, and climbing in Inorder logic. left->mid gap, mid->right gap compresion.
+        we will use recursive way: the minimum of: min gap right, min gap left, min(right,left,node)
+         */
+        //returns the min gap in parent and 2 children. if no children, returns max integer.
+
+        // stop conditions
+        if (root == null) return min;
+        
+        getMinimumDifference(root.left);
+        
+        if (prev != null) {
+            min = Math.min(min, root.val - prev);
+        }
+        prev = root.val;
+        
+        getMinimumDifference(root.right);
+        
+        return min;
+
+    }
+}

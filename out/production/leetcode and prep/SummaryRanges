@@ -1,0 +1,42 @@
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        // max return list of lists is every number as it is.
+        // only numbers that can be "consumed" is if we have following numbers. like 0 1 2 or 4,5
+        // iterate over the array:
+        // when found following number, group them. continue grouping aslong as the numbers are following.
+        // when the sequence break (end of array OR not a following number = more then ++) start a new list
+
+        List<String> res = new ArrayList<>();
+        if(nums.length == 0) return res;
+        
+        if(nums.length == 1) {
+            res.add(Integer.toString(nums[0]));
+            return res;
+        }
+
+        int currentStart = nums[0];
+        int currentEnd = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] == currentEnd + 1){ // following number?
+                currentEnd++;
+            } else { //close the current range & add it
+                if(currentStart == currentEnd){ // range = 1
+                    res.add(Integer.toString(currentStart));
+                }else{ // range > 1
+                     String toAdd = "" + currentStart + "->" + currentEnd;
+                     res.add(toAdd);
+                }
+                // start a new range
+                currentStart = nums[i];
+                currentEnd = nums[i];
+            }
+        }
+        if(currentStart == currentEnd){
+            res.add(Integer.toString(currentStart));
+        }else{
+                String toAdd = "" + currentStart + "->" + currentEnd;
+                res.add(toAdd);
+        }
+    return res;
+    }
+}

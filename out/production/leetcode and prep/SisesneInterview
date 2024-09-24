@@ -1,0 +1,118 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class EmailValidatorWithInput {
+//input: an email adress, that might be a blacklisted and might not.
+//constraints on input? no, any string input.
+
+//return: blacklisted or not (invalid = blacklisted, valid = not black listed)
+
+//if the input is "exit" then the program ends.
+//only one input? or the user can keep send more and more adresses until "exit"?
+
+
+    private static final String BLACKLIST_CSV_FILE = "/path/to/blacklist.csv";
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+		//starts with: ^[a-zA-Z0-9._%+-]+ 		one or more chars
+    //@[a-zA-Z0-9._%+-]+			one or more char after the @
+    //.atleast a-zA-Z 2->6 times
+    
+    
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String JDBC_USER = "root";
+    private static final String JDBC_PASSWORD = "password";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter an email address to validate or type 'exit' to quit:");
+
+        while (true) {
+            String emailInput = scanner.nextLine().trim(); //triming white spaces
+						
+            //TODO: add the exit check before other check to save running time
+            
+            if (!Pattern.compile(EMAIL_REGEX).matcher(emailInput).matches()) {
+                System.out.println(emailInput + " is invalid.");
+                return; //add small message to say what was the problem
+            }
+
+            if (isBlacklistedInCSV(emailInput)) {
+                System.out.println(emailInput + " is blacklisted (CSV).");
+            }
+
+            if (isBlacklistedInDatabase(emailInput)) {
+                System.out.println(emailInput + " is blacklisted (SQL Database).");
+            } else {
+                System.out.println(emailInput + " is valid and not blacklisted.");
+            }
+        }
+    }
+    
+    public static void sortedCsvArrayList(){
+    		/**
+        1) check how many items (mails) are in the csv fail = n
+        2) build an array of size n
+        3) fill the array with all the adresses
+        4) sort the array lexi-order
+        */
+        
+    }
+    
+    public static boolean isBlacklistedInCSV(String email) throws IOException {
+    //TODO: fix the logic of looking for the adress in the data base
+    //the csv is final, nothing will be added/removed along the run of the program.
+    //there is no constraint of space. we can use additional space and structure for.
+    
+    //i would like to use binary search for lexi l
+        BufferedReader reader = null;
+
+        reader = new BufferedReader(new FileReader(BLACKLIST_CSV_FILE));
+        String line;
+        Boolean found = false;
+        while ((line = reader.readLine()) != null) {
+            if (line.trim().equalsIgnoreCase(email)) {
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    public static boolean isBlacklistedInDatabase(String email) {
+    //no duplicates in the csv and database.
+    //the request return the first index where the "email" appears.
+    
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+        String sql = "SELECT COUNT(*) FROM blacklisted_emails WHERE email = ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1, email);
+
+
+        rs = stmt.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count > 0;
+
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+
+        return false;
+    }
+}
+
+

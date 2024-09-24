@@ -1,0 +1,47 @@
+// https://leetcode.com/problems/merge-sorted-array/
+
+/**
+nlogn: we will apppend nums2 to empty place of nums1 and sort in n logn
+n+m:
+copy_a1 = O(m+n)
+overriding original a1 = O(n+m)
+total: O(n+m)
+    */
+    class Solution {
+        public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+            int[] copy_a1 = new int[m];
+            for(int i=0; i<m; i++){
+                copy_a1[i] = nums1[i];
+            }
+            
+            int p_a1=0, p_a2=0, k=0;
+            while(p_a1 < m && p_a2 < n){
+                // check if a1 is smaller than a2 and add the smaller one to the current index
+                if(copy_a1[p_a1] < nums2[p_a2]){
+                    nums1[k] = copy_a1[p_a1];
+                    p_a1++;
+                }else{
+                    nums1[k] = nums2[p_a2];
+                    p_a2++;
+                }
+                k++;
+            }
+            
+            // if any of the array is not fully traversed, complete the appending
+            while(p_a1 < m){
+                nums1[k] = copy_a1[p_a1];
+                p_a1++;
+                k++;
+            }
+            while(p_a2 < n){
+                nums1[k] = nums2[p_a2];
+                p_a2++;
+                k++;
+            }
+
+            // possible better solution is filling from the end,
+            // this way we can avoid the extra space copy_a1
+
+        }
+    }

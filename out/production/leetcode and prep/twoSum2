@@ -1,0 +1,17 @@
+class Solution {
+    // by starting with the edges, we know for sure we wont skip the answer:
+    // only way to decrease the current sum is moving the right pointer to the left.
+    // only way to increase the current sum is moving the left pointer to the right.
+    // no room for errors.
+    // O(n) time complexity
+    public int[] twoSum(int[] nums, int target) {
+	int l = 0, r = nums.length - 1;
+	
+	while (nums[l] + nums[r] != target) {
+		if (nums[l] + nums[r] < target) l++;
+		else r--;
+	}
+
+	return new int[] {l+1, r+1};
+    }
+}
