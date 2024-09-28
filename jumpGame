@@ -1,0 +1,43 @@
+        import java.util.LinkedList;
+        import java.util.Queue;
+        
+        class Solution {
+            public boolean canJump(int[] nums) {
+                int n = nums.length;
+                boolean[] visited = new boolean[n]; // Array to track visited cells
+                Queue<Integer> q = new LinkedList<>(); // Queue to process cells
+        
+                q.add(0); // Start from the first index
+        
+                while (!q.isEmpty()) {
+                    int current = q.poll(); // Dequeue the current index
+        
+                    // If we reached the last index, return true
+                    if (current == n - 1) {
+                        return true;
+                    }
+        
+                    // If the current index has not been visited
+                    if (!visited[current]) {
+                        visited[current] = true; // Mark it as visited
+            
+                        // Add all reachable indices from the current index to the queue
+                        int nextIndexForward = current + nums[current];
+                        int nextIndexBackward = current - nums[current];
+            
+                        // Forward movement
+                        if (nextIndexForward < n && !visited[nextIndexForward]) {
+                            q.add(nextIndexForward);
+                        }
+            
+                        // Backward movement
+                        if (nextIndexBackward >= 0 && !visited[nextIndexBackward]) {
+                            q.add(nextIndexBackward);
+                        }
+                    }
+                }
+        
+                // If the queue is empty and we haven't reached the last index, return false
+                return false;
+            }
+        }

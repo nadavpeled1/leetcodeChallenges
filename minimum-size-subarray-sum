@@ -1,0 +1,47 @@
+class Solution {
+    //naive solution: we will iterate over possible legnths until reaching target
+    // public int minSubArrayLen(int target, int[] nums) {
+    //     //possible check if sum_array < target to return 0.
+    //     int max_sum = 0;
+    //     for(int z=1; z<=nums.length; z++){//window size
+    //         for(int i=0; i<nums.length-z+1; i++){//window starting index
+    //         int curr_sum = 0;
+    //             for(int j=0; j<z; j++){//summing current window
+    //                 curr_sum += nums[i+j];
+    //             }
+    //         max_sum = Math.max(max_sum, curr_sum);
+    //         if(max_sum >= target) return z;
+    //         }
+    //     }
+    //     return 0;
+    // }
+    // another solution: start with summing all elements.
+    // start narrowing the window: can i neglect left or right?
+    // if yes, neglect the smaller one
+    public int minSubArrayLen(int target, int[] nums) {
+        int sum = 0;
+        for(int i=0;i<nums.length;i++){sum+=nums[i];}
+        if(sum<target) return 0;
+        int count = nums.length;
+        int left = 0;
+        int right = count-1;
+
+        //start triming:
+        while(sum>=target){
+            //if((sum - nums[right] >= traget) && (sum - nums[left] >= traget)){ //both sides can be trimed
+                if(nums[right] < nums[left]) {//trim r
+                    sum -= nums[right];
+                    right--;
+                    count--;
+                }else{ //trim left
+                    sum -= nums[left];
+                    left++;
+                    count--;
+                }
+            //}
+        }
+        return count;
+    }
+
+
+}

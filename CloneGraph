@@ -1,0 +1,65 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+class Solution {
+    /**
+    -> first we will map the graph using a hashmap:
+    key = node
+    key_value = list of edges to nodes, [0] holds the value of the node.
+    -> travese logic:
+    The graph is connected, which says we will be able to eventually reach all the nodes if we progress right.
+    we maintain a queue, telling us the order we are going to check nighboors.
+    we also need to maintain who was already handled.
+     */
+    public Node cloneGraph(Node node) {
+        //init a hashmap for the mapping.
+        Map<Integer, ArrayList<Integer>> = new HashMap<>();
+        //init a queue for the traverse.
+        Queue<Node> = new Queue<>();
+        //add the given node to the queue.
+        q.add(node);
+        //while queue is not empty:
+        while(!q.isEmpty()){
+        //pop the first element.
+            Node curr = q.poll();
+            if(!map.containsKey(curr.val)){ //if unhandled:
+                //handle: node val is key,nighboors vals in arrayList is value.
+                ArrayList<Integer> nighboors = new ArrayList<>();
+                for(Node n : curr.neighbors){ nighboors.add(n.val);}
+                map.put(curr.val, nighboors);
+            }
+            //add all unhandled nighboors to the queue.
+            for(Node n : curr.nighboors){
+                if(!map.containsKey(n.val)){
+                    q.add(n);
+                }
+            }
+        }
+        // now we need to build the clone graph. we will iterate over the map and build the graph.
+        
+    return null;
+    }
+
+
+
+
+
+    
+}

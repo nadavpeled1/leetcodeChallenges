@@ -1,0 +1,21 @@
+class Solution {
+    public boolean isHappy(int n) {
+        if(n==1) return true;
+        Set<Integer> results = new HashSet<>();
+        while(n != 1){
+            n = sumSqDigits(n);
+            if(results.contains(n)) return false;
+            results.add(n);
+        }
+        return true;
+    }
+    public int sumSqDigits(int n){
+        int sum = 0;
+        while(n > 0){
+            int sqDig = (int)Math.pow((n%10),2);
+            sum += sqDig;
+            n = n/10;
+        }
+        return sum;
+    }
+}

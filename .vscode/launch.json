@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "exercisez",
+            "request": "launch",
+            "mainClass": "javaPrep.exercisez",
+            "projectName": "leetcode and prep_c84719e1"
+        },
+        {
+            "type": "java",
             "name": "hello",
             "request": "launch",
             "mainClass": "javaPrep.hello",
