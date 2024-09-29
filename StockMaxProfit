@@ -1,0 +1,13 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        // we need to find indexs i,j s.t. i<j and maximize (price[j]-price[i])
+        //naive solution:
+        int max_profit = 0;
+        for(int i=0;i<prices.length;i++)
+        {for(int j=i+1;j<prices.length;i++){
+                max_profit = Math.max(max_profit, prices[j]-prices[i]);
+            }
+        }
+        return max_profit;
+    }
+}
