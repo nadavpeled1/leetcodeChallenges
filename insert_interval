@@ -1,0 +1,30 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> res = new ArrayList<>();
+
+        for(int[] e : intervals){
+            // totaly before e
+            if(e[0] > newInterval[1]) {
+                res.add(newInterval);
+                newInterval = e;
+            }
+            // totaly after e
+            else if(newInterval[0] > e[1]) {
+                res.add(e);
+            }
+            //overlaps
+            else{
+                newInterval[0] = Math.min(newInterval[0], e[0]);
+                newInterval[1] = Math.max(newInterval[1], e[1]);
+            }
+        }
+
+        // insert the last newInterval
+        res.add(newInterval);
+        
+        // convert to int[][] array
+        return res.toArray(new int[res.size()][]);
+
+        
+    }
+}

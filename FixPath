@@ -1,0 +1,29 @@
+class Solution {
+    public String simplifyPath(String path) {
+        //split the path to an array by the slashes
+        String[] words = path.split("/");
+        //when we will build back we will avoid using the empty strings
+        List<String> res = new ArrayList<>();
+        //iterate over the words
+        for(String word : words){
+            //if we encounter a ".." we need to go back one directory
+            if(word.equals("..")){
+                //if we have something to go back to
+                if(!res.isEmpty()){
+                    res.remove(res.size()-1);
+                }
+            }
+            //if we encounter a "." we do nothing
+            else if(word.equals(".") || word.equals("")){
+                continue;
+            }
+            //otherwise we add the word to the result
+            else{
+                res.add(word);
+            }
+        }
+        // build the result with the slashes
+        return "/" + String.join("/", res);
+
+    }
+}
